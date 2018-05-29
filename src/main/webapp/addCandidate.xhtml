@@ -1,0 +1,149 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Añadir Candidato</title>
+</h:head>
+<h:body>
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="estilos.css" />
+	</f:facet>
+	
+	<f:view locale="#{languageController.locale}" />
+	
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="./WEB-INF/plantillas/plantilla.xhtml">
+		<ui:define name="content">
+		
+			<p:growl id="msgs" showDetail="true" for="addedCorrectly" />
+			
+			<h:form id="form">
+				<p:commandButton value="#{msgs['addColony']}" actionListener="#{candidatoBean.showDialog}" icon="ui-icon-check"/>
+				
+				<p:dialog modal="true" resizable="false" header="#{msgs['addColony']}" widgetVar="dialog" showEffect="fold" closable="true">
+			        <p:panel id="display">
+			        	<table>
+			        		<tr>
+			        			<td class="td-rigth-style"><p:outputLabel for="codPostalColonia" value="#{msgs['vacanteForm.codigoPostal']}:" /></td>
+			        			<td><p:inputText id="codPostalColonia" required="#{not empty param['form:submitId']}" value="#{coloniaBean.colonia.codigoPostal}" /></td>
+			        			<td><p:message for="codPostalColonia" class="errorMessage" /></td>
+			        		</tr>
+			        		<tr>
+			        			<td class="td-rigth-style"><p:outputLabel for="nombreColonia" value="#{msgs['colonyName']}:" /></td>
+			        			<td><p:inputText id="nombreColonia" required="#{not empty param['form:submitId']}" value="#{coloniaBean.colonia.nombre}" /></td>
+			        			<td><p:message for="nombreColonia" class="errorMessage" /></td>
+			        		</tr>
+			        		<tr>
+			        			<td class="td-rigth-style"><p:outputLabel for="ciudadColonia" value="#{msgs['vacanteForm.ciudad']}:" /></td>
+			        			<td><p:inputText id="ciudadColonia" required="#{not empty param['form:submitId']}" value="#{coloniaBean.colonia.ciudad}" /></td>
+			        			<td><p:message for="ciudadColonia" class="errorMessage" /></td>
+			        		</tr>
+			        		<tr>
+			        			<td></td>
+			        			<td class="td-rigth-style"><p:commandButton id="submitId" update="vacanteForm:coloniaId display msgs" value="#{msgs['vacanteForm.enviar']}" actionListener="#{coloniaBean.crearNuevo}" /></td>
+			        		</tr>
+			        	</table>
+			        </p:panel>
+	    		</p:dialog>
+			</h:form>
+			<h:form id="vacanteForm">
+				<table>
+					<tr>
+						<td><p:outputLabel for="nombre" value="#{msgs['vacanteForm.nombre']}" /></td>
+						<td><p:inputText id="nombre" required="true" value="#{candidatoBean.candidato.nombre}" /></td>
+						<td><p:message for="nombre" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="apellido" value="#{msgs['vacanteForm.apellido']}" /></td>
+						<td><p:inputText id="apellido" required="true" value="#{candidatoBean.candidato.apellido}" /></td>
+						<td><p:message for="apellido" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="sueldoDeseado" value="#{msgs['vacanteForm.sueldoDeseado']}" /></td>
+						<td>
+							<p:inputText id="sueldoDeseado" required="true" value="#{candidatoBean.candidato.sueldoDeseado}">
+								<f:validateLongRange minimum="10000" maximum="50000" />
+							</p:inputText>
+						</td>
+						<td><p:message for="sueldoDeseado" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="fechaNacimiento" value="#{msgs['vacanteForm.nacimiento']}" /></td>
+						 <td>
+						 	<p:calendar id="fechaNacimiento" required="true" value="#{candidatoBean.candidato.fechaNacimiento}" mindate="01/01/1970"
+								maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:calendar>
+						</td>
+						<!--
+						<td>
+							<p:inputText id="fechaNacimiento" required="true" value="#{candidatoBean.candidato.fechaNacimiento}">
+							</p:inputText>
+						</td>
+						-->
+						<td><p:message for="fechaNacimiento" class="errorMessage" />
+						</td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="list" value="#{msgs['vacanteForm.array']}" /></td>
+						<td>
+							<p:inputText id="list" required="true" value="#{candidatoBean.candidato.skills}">
+								<f:converter converterId="beans.converters.ToListString" />
+							</p:inputText>
+						</td>
+						<td><p:message for="list" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="codigoPostal" value="#{msgs['vacanteForm.codigoPostal']}" /></td>
+						<td>
+							<p:inputText id="codigoPostal" immediate="true" onchange="this.form.submit()" required="#{not empty param['vacanteForm:submitId']}"
+								value="#{candidatoBean.candidato.codigoPostal}" valueChangeListener="#{coloniaBean.codigoPostalListener}">
+								<!--<f:convertNumber integerOnly="true" pattern="0" /> -->
+							</p:inputText>
+						</td>
+						<td><p:message for="codigoPostal" class="errorMessage" /></td>
+					</tr>						
+					<tr>						
+						<td><p:outputLabel for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
+						<td><p:selectOneMenu id="coloniaId" required="true" value="#{candidatoBean.candidato.coloniaId}" dynamic="true">
+								<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" />
+								<f:selectItems value="#{coloniaBean.colonias}" />
+							</p:selectOneMenu>
+						</td>						
+						<td><p:message for="coloniaId" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="ciudad" value="#{msgs['vacanteForm.ciudad']}" /></td>
+						<td><p:inputText id="ciudad" required="true" value="#{candidatoBean.candidato.ciudad}" /></td>
+						<td><p:message for="ciudad" class="errorMessage" /></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td><h:commandLink actionListener="#{showHideController.ocultarComentario}" immediate="true" rendered="#{!showHideController.comentarioEnviado}"
+								value="#{msgs['mostrar']}" /> 
+							<h:commandLink actionListener="#{showHideController.ocultarComentario}" immediate="true" rendered="#{showHideController.comentarioEnviado}"
+								value="#{msgs['ocultar']}" />
+						</td>
+					</tr>
+				</table>
+				<h:panelGroup rendered="#{showHideController.comentarioEnviado}">
+					<table>
+						<tr>
+							<td><h:outputLabel for="comentario" value="#{msgs['vacanteForm.comentario']}" /></td>
+						</tr>
+						<tr>
+							<td><p:textEditor id="comentario" value="#{candidatoBean.candidato.comentario}" /></td>
+							<!--<td><h:inputTextarea id="comentario" cols="50" rows="10" value="#{candidato.comentario}" 
+									/></td> -->
+						</tr>
+					</table>
+				</h:panelGroup>
+				<p:commandButton id="submitId" update="vacanteForm msgs" action="#{candidatoBean.crearNuevo}" value="#{msgs['vacanteForm.enviar']}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

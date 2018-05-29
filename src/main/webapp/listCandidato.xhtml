@@ -1,0 +1,173 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>Listar Candidato</title>
+</h:head>
+<h:body>
+    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+        <f:facet name="start">
+            <h:graphicImage library="images" name="ajaxloading.gif" />
+        </f:facet>
+        <f:facet name="complete">
+            <h:outputText value="" />
+        </f:facet>
+    </p:ajaxStatus>
+
+	<f:view locale="#{languageController.locale}" />
+
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="./WEB-INF/plantillas/plantilla.xhtml">
+		<ui:define name="content">
+		
+	        <h:form prependId="false" id="form">
+	
+	            <p:growl id="messages" showDetail="true" />
+	            
+	            <p:messages />
+	
+	            <p:dataTable id="candidatos" var="candidato" value="#{candidatoBean.candidatos}" editable="true" rowKey="#{candidato.id}"
+	                selection="#{candidatoBean.candidato}" selectionMode="single">
+	
+	                <f:facet name="header">
+	                    #{msgs['candidateList']}
+	                </f:facet>
+	
+	                <p:column headerText="#{msgs['vacanteForm.nombre']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.nombre}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.nombre}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.apellido']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.apellido}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.apellido}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.sueldoDeseado']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.sueldoDeseado}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.sueldoDeseado}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.nacimiento']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.fechaNacimiento}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.fechaNacimiento}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.array']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.skills}" converter="beans.converters.ToListString"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.skills}" converter="beans.converters.ToListString"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['colonyName']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.colonia.nombre}"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.colonia.nombre}"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.codigoPostal']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.colonia.codigoPostal}"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.colonia.codigoPostal}"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.ciudad']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.colonia.ciudad}"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.colonia.ciudad}"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <p:column headerText="#{msgs['vacanteForm.comentario']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{candidato.comentario}"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{candidato.comentario}"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                <f:facet name="footer">
+	                    <p:commandButton value="Regresar" action="index?faces-redirect=true" />
+	                    <p:spacer height="5px;"/>
+	                    <p:commandButton value="Agregar" actionListener="#{candidatoBean.restartSelectedCandidate}" oncomplete="PF('personaDialogo').show();" update="candidatos">
+	                        <p:ajax event="dialogReturn" update="candidatos"/>
+	                    </p:commandButton>
+	                </f:facet>
+	
+	                <p:column headerText="Opciones" style="width:50px">
+	                    <p:rowEditor />
+	                </p:column>
+	
+	                <p:ajax event="rowEdit" listener="#{candidatoBean.editListener}">
+	                </p:ajax>
+	            </p:dataTable>
+	
+	
+	
+	            <p:contextMenu for="candidatos">
+	                <p:menuitem value="Eliminar" update="candidatos" icon="ui-icon-close" actionListener="#{candidatoBean.eliminarPersona}" ajax="false"/>
+	            </p:contextMenu>
+	        </h:form>
+
+	        <h:form id="dialogoForm" prependId="false">
+		            <p:dialog header="Agregar Canidato" widgetVar="candiatoDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		                <p:outputPanel id="candiatoDetalle" style="text-align:center;">
+		                    <p:panelGrid  columns="2" columnClasses="label,value">
+		                        <h:outputText value="Nombre" />
+		                        <h:inputText value="#{candidatoBean.candidato.nombre}" />
+		
+		                        <h:outputText value="Apellido:" />
+		                        <h:inputText value="#{candidatoBean.candidato.apellido}" />
+		
+		                        <f:facet name="footer">
+		                            <h:commandButton value="Agregar" actionListener="#{candidatoBean.agregarPersona}" />
+		                        </f:facet>
+		
+		                    </p:panelGrid>
+		                </p:outputPanel>
+		            </p:dialog>
+		        </h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

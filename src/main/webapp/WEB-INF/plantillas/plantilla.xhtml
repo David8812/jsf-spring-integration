@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="estilos.css" />
+	<title>Proyecto Hola Mundo Spring-JSF</title>
+</h:head>
+
+<h:body>
+	<div id="wrapper">
+		<div id="header-wrapper">
+			<ui:insert name="top">
+				<div id="header">
+					<div id="logo">
+						<h1>hola mundo jsf</h1>
+					</div>
+				</div>
+			</ui:insert>
+		</div>
+		<h:form id="languageForm" prependId="false">
+			<table>
+				<tr>
+					<td><h:commandLink
+							actionListener="#{languageController.changeLanguageToEnglish}" value="English"></h:commandLink></td>
+					<td><h:commandLink
+							actionListener="#{languageController.changeLanguageToSpanish}" value=" | Español"></h:commandLink></td>
+					<td><h:commandLink rendered="#{not empty request.getSession(true).getAttribute('logged')}"
+							action="#{userLoginView.logout}" value=" | #{msgs['closeSession']}"></h:commandLink></td>
+				</tr>
+			</table>
+		</h:form>
+		<div id="page">
+			<ui:insert name="content">Contenido</ui:insert>
+		</div>
+		<div id="footer">
+			<ui:insert name="bottom">Todos los Derechos Reservados</ui:insert>
+		</div>
+	</div>
+</h:body>
+
+</html>

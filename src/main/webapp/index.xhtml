@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Bholamundo-jsf-cdi</title>
+</h:head>
+<h:body>
+
+	<f:view locale="#{languageController.locale}" />
+	
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="./WEB-INF/plantillas/plantilla.xhtml">
+		<ui:define name="content">
+		
+			<p:growl id="msgs" showDetail="true" for="loggAction" />
+			
+			<h:panelGroup id="container">
+				<c:choose>
+					<c:when test="#{not empty request.getSession(true).getAttribute('logged')}">
+						<h:form>
+							<h:commandLink action="addCandidate?faces-redirect=true" value="#{msgs['addCandidate']}"></h:commandLink>
+							<br/>
+							<h:commandLink action="listCandidato?faces-redirect=true" value="#{msgs['listCandidate']}"></h:commandLink>
+						</h:form>
+					</c:when>
+					<c:otherwise>
+						<h:form id="logginForm">
+							<table>
+								<tr>
+									<td><p:outputLabel for="username" value="#{msgs['username']}:" /></td>
+									<td><p:inputText id="username" required="true" value="#{userLoginView.username}" /></td>
+									<td><p:message for="username" class="errorMessage" /></td>
+								</tr>
+								<tr>
+									<td><p:outputLabel for="password" value="#{msgs['password']}:" /></td>
+									<td><p:password id="password" required="true" value="#{userLoginView.password}" /></td>
+									<td><p:message for="password" class="errorMessage" /></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><p:commandButton actionListener="#{userLoginView.login}" update="logginForm msgs container languageForm" value="#{msgs['logIn']}" /></td>
+								</tr>
+							</table>
+						</h:form>
+					</c:otherwise>
+				</c:choose>
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>
