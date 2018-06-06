@@ -9,113 +9,122 @@
     <title>Listar Candidato</title>
 </h:head>
 <h:body>
-    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
-        <f:facet name="start">
-            <h:graphicImage library="images" name="ajaxloading.gif" />
-        </f:facet>
-        <f:facet name="complete">
-            <h:outputText value="" />
-        </f:facet>
-    </p:ajaxStatus>
 
 	<f:view locale="#{languageController.locale}" />
 
 	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="./WEB-INF/plantillas/plantilla.xhtml">
 		<ui:define name="content">
-		
+			
+			<p:growl id="msgsError" showDetail="true" />
+			
 	        <h:form prependId="false" id="form">
-	
-	            <p:growl id="messages" showDetail="true" />
+	        
+	            <p:growl id="msgs" showDetail="true" for="globalMessage" />
 	            
-	            <p:messages />
-	
 	            <p:dataTable id="candidatos" var="candidato" value="#{candidatoBean.candidatos}" editable="true" rowKey="#{candidato.id}"
-	                selection="#{candidatoBean.candidato}" selectionMode="single">
-	
+	                selection="#{candidatoBean.candidato}" selectionMode="single" resizableColumns="true" liveResize="true" paginator="true" rows="10">
+					
+					<p:ajax event="rowEdit" listener="#{candidatoBean.editListener}" update="msgs msgsError" />
+					<p:ajax event="rowEditCancel" listener="#{candidatoBean.forceReloadListData}" update="candidatos"/>
+					
 	                <f:facet name="header">
 	                    #{msgs['candidateList']}
 	                </f:facet>
 	
-	                <p:column headerText="#{msgs['vacanteForm.nombre']}">
+	                <p:column headerText="#{msgs['vacanteForm.nombre']}" resizable="true">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.nombre}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.nombre}" />
+	                            <p:inputText required="true" value="#{candidato.nombre}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.apellido']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.apellido}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.apellido}" />
+	                            <p:inputText required="true" value="#{candidato.apellido}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.sueldoDeseado']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.sueldoDeseado}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.sueldoDeseado}" />
+	                            <p:inputText required="true" value="#{candidato.sueldoDeseado}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.nacimiento']}">
-	                    <p:cellEditor>
+	                    <p:cellEditor id="calendarCell">
 	                        <f:facet name="output">
-	                            <h:outputText value="#{candidato.fechaNacimiento}" />
+	                            <h:outputText value="#{candidato.fechaNacimiento}">
+	                            	<f:convertDateTime pattern="dd/MM/yyyy" />
+	                            </h:outputText>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.fechaNacimiento}" />
+	                            <p:calendar id="calendarOutput" required="true" value="#{candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
+	                            	<f:convertDateTime pattern="dd/MM/yyyy" />
+	                            </p:calendar>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.array']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.skills}" converter="beans.converters.ToListString"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.skills}" converter="beans.converters.ToListString"/>
+	                            <p:inputText required="true" value="#{candidato.skills}" converter="beans.converters.ToListString"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['colonyName']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.colonia.nombre}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.colonia.nombre}"/>
+	                            <p:inputText id="coloniaNombreId" required="true" value="#{candidato.colonia.nombre}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.codigoPostal']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.colonia.codigoPostal}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.colonia.codigoPostal}"/>
+	                            <p:inputText required="true" value="#{candidato.colonia.codigoPostal}">
+	                            	<p:ajax event="change" listener="#{candidatoBean.updateColonyDataOnList}" update="coloniaNombreId ciudadId"/>
+	                            </p:inputText>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.ciudad']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
 	                            <h:outputText value="#{candidato.colonia.ciudad}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.colonia.ciudad}"/>
+	                            <p:inputText required="true" id="ciudadId" value="#{candidato.colonia.ciudad}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
 	                <p:column headerText="#{msgs['vacanteForm.comentario']}">
 	                    <p:cellEditor>
 	                        <f:facet name="output">
@@ -126,47 +135,112 @@
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
+	                
+	                <p:column headerText="#{msgs['edit']}" style="width:50px">
+	                    <p:rowEditor />
+	                </p:column>
+	                
 	                <f:facet name="footer">
-	                    <p:commandButton value="Regresar" action="index?faces-redirect=true" />
+	                    <p:commandButton value="#{msgs['return']}" action="index?faces-redirect=true" />
 	                    <p:spacer height="5px;"/>
-	                    <p:commandButton value="Agregar" actionListener="#{candidatoBean.restartSelectedCandidate}" oncomplete="PF('personaDialogo').show();" update="candidatos">
-	                        <p:ajax event="dialogReturn" update="candidatos"/>
+	                    <p:commandButton value="#{msgs['create']}" actionListener="#{candidatoBean.showCandidatoDialog}">
+	                        <p:ajax event="dialogReturn" update="candidatos" />
 	                    </p:commandButton>
 	                </f:facet>
 	
-	                <p:column headerText="Opciones" style="width:50px">
-	                    <p:rowEditor />
-	                </p:column>
-	
-	                <p:ajax event="rowEdit" listener="#{candidatoBean.editListener}">
-	                </p:ajax>
 	            </p:dataTable>
-	
-	
-	
+	            
 	            <p:contextMenu for="candidatos">
-	                <p:menuitem value="Eliminar" update="candidatos" icon="ui-icon-close" actionListener="#{candidatoBean.eliminarPersona}" ajax="false"/>
+	                <p:menuitem value="Eliminar" update="candidatos" icon="ui-icon-trash" actionListener="#{candidatoBean.deleteCandidate}" ajax="false"/>
 	            </p:contextMenu>
+	            
 	        </h:form>
+	        
+	        <h:form id="waitForm">
+	        	<p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+	        	
+	        	<p:dialog widgetVar="statusDialog" styleClass="loading-dialog-style" modal="true" showHeader="false" resizable="false">
+				  	<h:graphicImage value="resources/images/ajaxloading.gif"></h:graphicImage>
+			  	</p:dialog>
+	        	
+				<p:remoteCommand autoRun="true" update="msgs form" actionListener="#{candidatoBean.updateComponent}" />
+			</h:form>
 
-	        <h:form id="dialogoForm" prependId="false">
-		            <p:dialog header="Agregar Canidato" widgetVar="candiatoDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-		                <p:outputPanel id="candiatoDetalle" style="text-align:center;">
-		                    <p:panelGrid  columns="2" columnClasses="label,value">
-		                        <h:outputText value="Nombre" />
-		                        <h:inputText value="#{candidatoBean.candidato.nombre}" />
-		
-		                        <h:outputText value="Apellido:" />
-		                        <h:inputText value="#{candidatoBean.candidato.apellido}" />
-		
-		                        <f:facet name="footer">
-		                            <h:commandButton value="Agregar" actionListener="#{candidatoBean.agregarPersona}" />
-		                        </f:facet>
-		
-		                    </p:panelGrid>
-		                </p:outputPanel>
-		            </p:dialog>
-		        </h:form>
+	        <h:form id="vacanteForm" prependId="false">
+	            <p:dialog header="#{msgs['addCandidate']}" widgetVar="candiatoDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+	            	<p:outputPanel>
+	            		<p:panel id="display">
+	                    	<table>
+	                    		<tr>
+	                    			<td><p:outputLabel for="nombre" value="#{msgs['vacanteForm.nombre']}" /></td>
+	                    			<td><p:inputText id="nombre" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.nombre}" /></td>
+	                    			<td><p:message for="nombre" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel for="apellido" value="#{msgs['vacanteForm.apellido']}:" /></td>
+	                    			<td><p:inputText id="apellido" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.apellido}" /></td>
+	                    			<td><p:message for="apellido" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel for="sueldoDeseado" value="#{msgs['vacanteForm.sueldoDeseado']}:" /></td>
+	                    			<td>
+	                    				<p:inputText id="sueldoDeseado" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.sueldoDeseado}">
+	                    					<f:validateLongRange minimum="10000" maximum="50000" disabled="#{empty param['submitId']}" />
+	                    				</p:inputText>
+	                    			</td>
+	                    			<td><p:message for="sueldoDeseado" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel for="calendarOutput" value="#{msgs['vacanteForm.nacimiento']}:" /></td>
+	                    			<td>
+	                    				<p:calendar id="calendarOutput" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
+			                            	<f:convertDateTime pattern="dd/MM/yyyy" />
+			                            </p:calendar>
+									</td>
+									<td><p:message for="calendarOutput" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel for="habilidades" value="#{msgs['vacanteForm.array']}:" /></td>
+	                    			<td><p:inputText id="habilidades" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.skills}" converter="beans.converters.ToListString"/></td>
+	                    			<td><p:message for="habilidades" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel id="coloniaCodPostalLabelId" for="coloniaCodPostal" value="#{msgs['vacanteForm.codigoPostal']}:" /></td>
+	                    			<td>
+	                    				<p:inputText id="coloniaCodPostal" immediate="#{empty param['submitId']}" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.codigoPostal}">
+	                    					<p:ajax event="change" listener="#{coloniaBean.codigoPostalListener}" update="ciudadLabelId ciudadMessageId ciudad coloniaLabelId coloniaMessageId coloniaId coloniaCodPostalLabelId coloniaCodigoPostalMessageId coloniaCodPostal" />
+	                    				</p:inputText>
+	                    			</td>
+	                    			<td><p:message id="coloniaCodigoPostalMessageId" for="coloniaCodPostal" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+									<td><p:outputLabel id="coloniaLabelId" for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
+									<td><p:selectOneMenu id="coloniaId" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.coloniaId}" dynamic="true">
+											<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" noSelectionOption="true"/>
+											<f:selectItems value="#{coloniaBean.colonias}" />
+										</p:selectOneMenu>
+									</td>
+									<td><p:message id="coloniaMessageId" for="coloniaId" class="errorMessage" /></td>
+								</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel id="ciudadLabelId" for="ciudad" value="#{msgs['vacanteForm.ciudad']}:" /></td>
+	                    			<td><p:inputText id="ciudad" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.ciudad}"/></td>
+	                    			<td><p:message id="ciudadMessageId" for="ciudad" class="errorMessage" /></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td><p:outputLabel for="comentario" value="#{msgs['vacanteForm.comentario']}:" /></td>
+	                    			<td><p:inputText id="comentario" value="#{candidatoBean.candidato.comentario}"/></td>
+	                    			<td><p:message for="comentario" class="errorMessage" /></td>
+	                    		</tr>
+	                    	</table>
+						
+	                        <f:facet name="footer">
+	                            <p:commandButton validateClient="true" id="submitId" value="#{msgs['create']}" update="display msgs candidatos" actionListener="#{candidatoBean.crearNuevo}" />
+	                        </f:facet>
+	                    </p:panel>
+	            	</p:outputPanel>
+	            </p:dialog>
+	        </h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

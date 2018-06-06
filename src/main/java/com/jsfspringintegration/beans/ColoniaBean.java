@@ -6,12 +6,14 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.view.ViewScoped;
 
 import org.primefaces.PrimeFaces;
 
@@ -32,14 +34,40 @@ public class ColoniaBean {
 	public ColoniaBean() {
 	}
 
-	public void codigoPostalListener(ValueChangeEvent valueChangeEvent) {
+	public void codigoPostalListener(AjaxBehaviorEvent event) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		UIViewRoot uiViewRoot = facesContext.getViewRoot();
-		String newCodigoPostal = (String) valueChangeEvent.getNewValue();
+		
+		UIInput input = (UIInput) event.getSource();
+		
+		UIComponent parent = input.getParent();
+		
+		while(!(parent instanceof UIForm)) {
+			parent = parent.getParent();
+		}
+		
+		
+		String formId = parent.getClientId();
+		
+		System.out.println("Form ID=>" + formId);
+		
+		String clientId = input.getClientId();
+		System.out.println("ID del elemento=>" + clientId);
+		
+		String newCodigoPostal = (String) input.getValue();
+		
 		System.out.println("Nuevo codigo postal: " + newCodigoPostal);
-
-		UIInput coloniaInputText = (UIInput) uiViewRoot.findComponent("vacanteForm:coloniaId");
-
+		
+		int idx = clientId.lastIndexOf(":");
+		String part1 = clientId.substring(0, idx + 1);
+		String part2 = "coloniaId";
+		String newId = formId + ":" + part1 + part2;
+		
+		System.out.println("ID to modify colony name=>" + newId);
+		
+		PrimeFaces.current().resetInputs(newId);
+		UIInput coloniaInputText = (UIInput) uiViewRoot.findComponent(newId);
+		
 		Colonia c = coloniaService.findByCodigoPostal(newCodigoPostal);
 
 		if (c == null) {
@@ -53,26 +81,34 @@ public class ColoniaBean {
 		coloniaInputText.setValue(coloniaId);
 		coloniaInputText.setSubmittedValue(coloniaId);
 
-		UIInput ciudadInputText = (UIInput) uiViewRoot.findComponent("vacanteForm:ciudad");
+		part2 = "ciudad";
+		newId = formId + ":" + part1 + part2;
+		
+		System.out.println("ID to modify city name=>" + newId);
+		
+		PrimeFaces.current().resetInputs(newId);
+		UIInput ciudadInputText = (UIInput) uiViewRoot.findComponent(newId);
 
 		String ciudad = c.getCiudad();
 		ciudadInputText.setValue(ciudad);
 		ciudadInputText.setSubmittedValue(ciudad);
-
+		
 		facesContext.renderResponse();
 	}
 
 	public void crearNuevo() {
 		System.out.println("Entrando a guardar colonia: " + colonia.toString());
-		
+
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		
-		String summary = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectly']}", String.class);
-		String detail = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectlyDetail']}", String.class);
+
+		String summary = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectly']}",
+				String.class);
+		String detail = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectlyDetail']}",
+				String.class);
 		ctx.addMessage("addedCorrectly", new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
-		
+
 		coloniaService.save(colonia);
-		
+
 		colonia.setCiudad("");
 		colonia.setCodigoPostal("");
 		colonia.setNombre("");

@@ -55,12 +55,36 @@ public class Candidato implements Serializable {
 	public Candidato() {
 	}
 
+	public Candidato(String id, String nombre, String apellido, int sueldoDeseado, Date fechaNacimiento,
+			List<String> skills, Colonia colonia, String comentario) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.sueldoDeseado = sueldoDeseado;
+		this.fechaNacimiento = fechaNacimiento;
+		this.skills = skills;
+		this.colonia = colonia;
+		this.comentario = comentario;
+	}
+
+	public Candidato copy() {
+		return new Candidato(id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, colonia, comentario);
+	}
+
 	public String getColoniaId() {
 		return coloniaId;
 	}
 
 	public void setColoniaId(String coloniaId) {
 		this.coloniaId = coloniaId;
+	}
+
+	public String getCodigoPostal1() {
+		if (colonia == null) {
+			return codigoPostal;
+		} else {
+			return colonia.getCodigoPostal();
+		}
 	}
 
 	public String getCodigoPostal() {
@@ -72,7 +96,11 @@ public class Candidato implements Serializable {
 	}
 
 	public String getCiudad() {
-		return ciudad;
+		if (colonia == null) {
+			return ciudad;
+		} else {
+			return colonia.getCiudad();
+		}
 	}
 
 	public void setCiudad(String ciudad) {
@@ -120,6 +148,12 @@ public class Candidato implements Serializable {
 	}
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
+		int offset = fechaNacimiento.getTimezoneOffset();
+
+		System.out.println("Timeoffset: " + offset);
+
+		fechaNacimiento.setMinutes(offset);
+
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -178,19 +212,19 @@ public class Candidato implements Serializable {
 			return colonia.getId();
 		}
 	}
-	
+
 	public String getNombreColonia() {
-		if(colonia == null) {
+		if (colonia == null) {
 			return null;
 		} else {
 			return colonia.getNombre();
 		}
 	}
-	
+
 	public void clean() {
 		id = nombre = comentario = coloniaId = ciudad = apellido = codigoPostal = null;
 		skills = null;
-		colonia = null;
+		colonia = new Colonia();
 		sueldoDeseado = 0;
 		fechaNacimiento = null;
 	}
@@ -198,7 +232,7 @@ public class Candidato implements Serializable {
 	public String toString() {
 		return String.format(
 				"[ID:%s, nombre:%s, apellido:%s, sueldo deseado:%s, fecha de nacimiento:%s, Habilidades:%s, Colonia: {codigo postal:%s, nombre: %s, colonia id:%s, ciudad:%s}, comentario:%s]",
-				id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, getCodigoPostal(), getNombreColonia(), getID(), getCiudad(),
-				comentario);
+				id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, getCodigoPostal1(), getNombreColonia(),
+				getID(), getCiudad(), comentario);
 	}
 }

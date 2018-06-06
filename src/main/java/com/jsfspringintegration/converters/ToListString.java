@@ -29,9 +29,9 @@ public class ToListString implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        log.info("Entrando al convertidor personalizado getAsObject()");
+        //log.info("Entrando al convertidor personalizado getAsObject()");
         if (value != null && !value.trim().equals("")) {
-            log.info("Value no es null, es: " + value);
+            //log.info("Value no es null, es: " + value);
             String[] ret = value.split("[,]");
             List<String> list = new ArrayList<>();
             for (String string : ret) {
@@ -47,7 +47,7 @@ public class ToListString implements Converter {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        log.info("Entrando al convertidor personalizado getAsString()");
+        //log.info("Entrando al convertidor personalizado getAsString()");
         List<String> skills = (List<String>) value;
         if (value != null && skills.size() > 0) {
             String ret = "";
@@ -59,7 +59,7 @@ public class ToListString implements Converter {
                 ret += s;
                 i++;
             }
-            log.info("Array string: " + ret);
+            //log.info("Array string: " + ret);
             return ret;
         } else {
             String msg = context.getApplication().evaluateExpressionGet(context, "#{msgs['vacanteForm.array.empty']}", String.class);

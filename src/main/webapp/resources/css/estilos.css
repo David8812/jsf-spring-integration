@@ -67,6 +67,11 @@ a {
 	text-align: right;
 }
 
+.loading-dialog-style {
+	width: 42px !important;
+	height: 30px !important;
+}
+
 #wrapper {
     margin: 0 auto;
     padding: 0;

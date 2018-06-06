@@ -20,6 +20,7 @@ public class DepuracionListener implements PhaseListener {
     @Override
     public void afterPhase(PhaseEvent phaseEvent) {
         FacesContext facesContext = phaseEvent.getFacesContext();
+        
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
         response.addHeader("Pragma", "no-cache");
         response.addHeader("Cache-Control", "no-cache");

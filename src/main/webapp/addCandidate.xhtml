@@ -77,12 +77,6 @@
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</p:calendar>
 						</td>
-						<!--
-						<td>
-							<p:inputText id="fechaNacimiento" required="true" value="#{candidatoBean.candidato.fechaNacimiento}">
-							</p:inputText>
-						</td>
-						-->
 						<td><p:message for="fechaNacimiento" class="errorMessage" />
 						</td>
 					</tr>
@@ -96,28 +90,27 @@
 						<td><p:message for="list" class="errorMessage" /></td>
 					</tr>
 					<tr>
-						<td><p:outputLabel for="codigoPostal" value="#{msgs['vacanteForm.codigoPostal']}" /></td>
+						<td><p:outputLabel id="codigoPostalLabelId" for="codigoPostal" value="#{msgs['vacanteForm.codigoPostal']}" /></td>
 						<td>
-							<p:inputText id="codigoPostal" immediate="true" onchange="this.form.submit()" required="#{not empty param['vacanteForm:submitId']}"
-								value="#{candidatoBean.candidato.codigoPostal}" valueChangeListener="#{coloniaBean.codigoPostalListener}">
-								<!--<f:convertNumber integerOnly="true" pattern="0" /> -->
+							<p:inputText id="codigoPostal" required="#{not empty param['vacanteForm:submitId']}" value="#{candidatoBean.candidato.codigoPostal}" >
+								<p:ajax event="change" listener="#{coloniaBean.codigoPostalListener}" update="codigoPostalMessagId codigoPostalLabelId codigoPostal coloniaLabelId coloniaMessageId coloniaId ciudadLabelId ciudadMessageId ciudad"/>
 							</p:inputText>
 						</td>
-						<td><p:message for="codigoPostal" class="errorMessage" /></td>
-					</tr>						
-					<tr>						
-						<td><p:outputLabel for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
-						<td><p:selectOneMenu id="coloniaId" required="true" value="#{candidatoBean.candidato.coloniaId}" dynamic="true">
-								<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" />
-								<f:selectItems value="#{coloniaBean.colonias}" />
-							</p:selectOneMenu>
-						</td>						
-						<td><p:message for="coloniaId" class="errorMessage" /></td>
+						<td><p:message id="codigoPostalMessagId" for="codigoPostal" class="errorMessage" /></td>
 					</tr>
 					<tr>
-						<td><p:outputLabel for="ciudad" value="#{msgs['vacanteForm.ciudad']}" /></td>
+						<td><p:outputLabel id="coloniaLabelId" for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
+						<td><p:selectOneMenu id="coloniaId" required="true" value="#{candidatoBean.candidato.coloniaId}" dynamic="true" >
+								<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" noSelectionOption="true" />
+								<f:selectItems value="#{coloniaBean.colonias}" />
+							</p:selectOneMenu>
+						</td>
+						<td><p:message id="coloniaMessageId" for="coloniaId" class="errorMessage" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel id="ciudadLabelId" for="ciudad" value="#{msgs['vacanteForm.ciudad']}" /></td>
 						<td><p:inputText id="ciudad" required="true" value="#{candidatoBean.candidato.ciudad}" /></td>
-						<td><p:message for="ciudad" class="errorMessage" /></td>
+						<td><p:message id="ciudadMessageId" for="ciudad" class="errorMessage" /></td>
 					</tr>
 				</table>
 				<table>
