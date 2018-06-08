@@ -108,7 +108,7 @@
 	                        </f:facet>
 	                        <f:facet name="input">
 	                            <p:inputText required="true" value="#{candidato.colonia.codigoPostal}">
-	                            	<p:ajax event="change" listener="#{candidatoBean.updateColonyDataOnList}" update="coloniaNombreId ciudadId"/>
+	                            	<p:ajax event="change" resetValues="true" listener="#{candidatoBean.updateColonyDataOnList}" update="coloniaNombreId ciudadId"/>
 	                            </p:inputText>
 	                        </f:facet>
 	                    </p:cellEditor>

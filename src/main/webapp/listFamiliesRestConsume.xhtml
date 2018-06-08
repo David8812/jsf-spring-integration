@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>Listar Familias</title>
+</h:head>
+<h:body>
+
+	<f:view locale="#{languageController.locale}" />
+
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="./WEB-INF/plantillas/plantilla.xhtml">
+		<ui:define name="content">
+		
+		<h:form id="waitForm">
+        	<p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        	
+        	<p:dialog widgetVar="statusDialog" styleClass="loading-dialog-style" modal="true" showHeader="false" resizable="false">
+			  	<h:graphicImage value="resources/images/ajaxloading.gif"></h:graphicImage>
+		  	</p:dialog>
+		</h:form>
+		
+		<p:growl showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+		
+		<h:form>
+			<p:outputPanel id="customPanel" style="margin-bottom:10px">
+		        <p:selectOneRadio id="customRadio" layout="custom" value="#{consumeWebServiceFamily.defaultSelection}">
+		            <f:selectItem itemLabel="0" itemValue="true" />
+		            <f:selectItem itemLabel="1" itemValue="false" />
+		            <p:ajax event="change" listener="#{consumeWebServiceFamily.handleRadioChange}" update="opt2Text"/>
+		        </p:selectOneRadio>
+		 
+		        <h:panelGrid columns="3" cellpadding="5">
+		            <p:radioButton id="opt2" for="customRadio" itemIndex="1"/>
+		            <p:outputLabel for="opt2" value="Listar miembro de la familia" />
+		            <p:inputText id="opt2Text" required="#{not consumeWebServiceFamily.radioButtonTextDisable}" disabled="#{consumeWebServiceFamily.radioButtonTextDisable}" value="#{consumeWebServiceFamily.id}">
+		            	<f:converter converterId="javax.faces.Integer"/>
+		            </p:inputText>
+		 
+		            <p:radioButton id="opt3" for="customRadio" itemIndex="2" />
+		            <h:outputLabel for="opt3" value="Listar toda la familia" />
+		            <p:calendar rendered="false" />
+		        </h:panelGrid>
+		    </p:outputPanel>
+			<p:commandButton actionListener="#{consumeWebServiceFamily.consumeRestFamily}" value="Buscar" update="opt2Text familias"/>
+		</h:form>
+		<br/>
+		<h:form prependId="false" id="form">
+	        
+	            <p:growl id="msgs" showDetail="true" for="globalMessage" />
+	            
+	            <p:dataTable id="familias" var="familia" value="#{consumeWebServiceFamily.families}" editable="true" rowKey="#{familia.id}"
+	                selection="#{candidatoBean.candidato}" selectionMode="single" resizableColumns="true" liveResize="true" paginator="true" rows="6">
+					
+					<p:ajax event="rowEdit" listener="#{candidatoBean.editListener}" update="msgs" />
+					<p:ajax event="rowEditCancel" listener="#{candidatoBean.forceReloadListData}" update="familias"/>
+					
+	                <f:facet name="header">
+	                    #{msgs['familyList']}
+	                </f:facet>
+					
+					<p:column headerText="Id" resizable="true">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.id}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText required="true" value="#{familia.id}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	
+	                <p:column headerText="#{msgs['vacanteForm.nombre']}" resizable="true">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.nombre}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText required="true" value="#{familia.nombre}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                
+	                <p:column headerText="#{msgs['vacanteForm.apellidoPat']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.apellidoPaterno}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText required="true" value="#{familia.apellidoPaterno}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                
+	                <p:column headerText="#{msgs['vacanteForm.apellidoMat']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.apellidoMaterno}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText required="true" value="#{familia.apellidoMaterno}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                
+	                <p:column headerText="#{msgs['vacanteForm.phone']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.telefono}" />
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText required="true" value="#{familia.telefono}" />
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                
+	                <p:column headerText="#{msgs['vacanteForm.residence']}">
+	                    <p:cellEditor>
+	                        <f:facet name="output">
+	                            <h:outputText value="#{familia.domicilio}"/>
+	                        </f:facet>
+	                        <f:facet name="input">
+	                            <p:inputText value="#{familia.domicilio}"/>
+	                        </f:facet>
+	                    </p:cellEditor>
+	                </p:column>
+	                
+	                <p:column headerText="#{msgs['edit']}" style="width:50px">
+	                    <p:rowEditor />
+	                </p:column>
+	                
+	                <f:facet name="footer">
+	                    <p:commandButton value="#{msgs['return']}" action="index?faces-redirect=true" />
+	                    <p:spacer height="5px;"/>
+	                    <p:commandButton value="#{msgs['create']}" actionListener="#{candidatoBean.showCandidatoDialog}">
+	                        <p:ajax event="dialogReturn" update="familias" />
+	                    </p:commandButton>
+	                </f:facet>
+	
+	            </p:dataTable>
+	            
+	            <p:contextMenu for="familias">
+	                <p:menuitem value="Eliminar" update="familias" icon="ui-icon-trash" actionListener="#{candidatoBean.deleteCandidate}" ajax="false"/>
+	            </p:contextMenu>
+	            
+	        </h:form>
+	        
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
