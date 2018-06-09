@@ -1,5 +1,7 @@
 package com.jsfspringintegration.controller;
 
+import java.util.Iterator;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
