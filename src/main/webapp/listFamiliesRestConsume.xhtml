@@ -57,7 +57,7 @@
 		<h:form prependId="false" id="form">
 	            
 	            <p:dataTable id="familias" var="familia" value="#{consumeWebServiceFamily.families}" editable="true" rowKey="#{familia.id}"
-	                selectionMode="single" resizableColumns="true" liveResize="true" paginator="true" rows="6">
+	                selectionMode="single" selection="#{consumeWebServiceFamily.familia}" resizableColumns="true" liveResize="true" paginator="true" rows="6">
 					
 					<p:ajax event="rowEdit" listener="#{consumeWebServiceFamily.editListener}" />
 					<p:ajax event="rowEditCancel" listener="#{candidatoBean.forceReloadListData}"/>
@@ -147,7 +147,7 @@
 	            </p:dataTable>
 	            
 	            <p:contextMenu for="familias">
-	                <p:menuitem value="Eliminar" update="familias" icon="ui-icon-trash" actionListener="#{candidatoBean.deleteCandidate}" ajax="false"/>
+	                <p:menuitem value="Eliminar" update="familias" icon="ui-icon-trash" actionListener="#{consumeWebServiceFamily.deleteCandidate}"/>
 	            </p:contextMenu>
 	            
 	        </h:form>

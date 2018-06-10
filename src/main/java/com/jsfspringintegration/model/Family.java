@@ -16,7 +16,7 @@ public class Family {
 	private String telefono;
 
 	private String domicilio;
-	
+
 	public Family() {
 	}
 
@@ -30,7 +30,8 @@ public class Family {
 
 	@Override
 	public String toString() {
-		return String.format("[nombre: %s, apellidoPaterno: %s, apellidoMaterno: %s, telefono: %s, domicilio: %s]",
+		return String.format(
+				"[ID: %s, nombre: %s, apellidoPaterno: %s, apellidoMaterno: %s, telefono: %s, domicilio: %s]", id,
 				nombre, apellidoPaterno, apellidoMaterno, telefono, domicilio);
 	}
 
@@ -80,6 +81,13 @@ public class Family {
 
 	public void setDomicilio(String domicilio) {
 		this.domicilio = domicilio;
+	}
+
+	public boolean equals(Object o) {
+		Family f = (Family) o;
+		if(id == f.getId())
+			return true;
+		return false;
 	}
 
 }

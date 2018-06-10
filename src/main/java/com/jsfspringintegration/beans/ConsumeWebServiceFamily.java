@@ -160,14 +160,31 @@ public class ConsumeWebServiceFamily {
 			createOkInfoMessage();
 
 			Family f = response.readEntity(Family.class);
-			// List<Family> list = findAllFamilies(getRestWebServiceConnection("David", "d",
-			// "http://localhost:8181/web-app/api_rest/", "family"));
-			// families.clear();
 			families.add(f);
 		} else
 			creatUnkonwnError(type);
 
 		familia = new Family();
+	}
+	
+	public void deleteCandidate() {
+		System.out.println("deleting... " + familia);
+		
+		WebTarget target = getRestWebServiceConnection("David", "d", "http://localhost:8181/web-app/api_rest/", "family");
+		
+		Invocation.Builder invocationBuilder = target.path("/" + familia.getId()).request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.delete();
+		
+		int responseStatus = response.getStatus();
+		StatusType type = response.getStatusInfo();
+		System.out.println("Respuesta=>" + type);
+		
+		if (responseStatus == 201) {
+			createOkDeletedInfoMessage();
+			
+			families.remove(familia);
+		} else
+			creatUnkonwnError(type);
 	}
 
 	private List<Family> findAllFamilies(WebTarget target) {
@@ -184,8 +201,7 @@ public class ConsumeWebServiceFamily {
 		families.clear();
 
 		try {
-			WebTarget target = getRestWebServiceConnection("David", "d", "http://localhost:8181/web-app/api_rest/",
-					"family");
+			WebTarget target = getRestWebServiceConnection("David", "d", "http://localhost:8181/web-app/api_rest/", "family");
 
 			if (radioButtonTextDisable) {
 				List<Family> list = findAllFamilies(target);
@@ -215,6 +231,15 @@ public class ConsumeWebServiceFamily {
 		String summary = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectly']}",
 				String.class);
 		String detail = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['correctPost']}", String.class);
+		ctx.addMessage("restServiceGlobalErrors", new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
+	}
+	
+	private void createOkDeletedInfoMessage() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+
+		String summary = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['colonyAddedCorrectly']}",
+				String.class);
+		String detail = ctx.getApplication().evaluateExpressionGet(ctx, "#{msgs['correctDelete']}", String.class);
 		ctx.addMessage("restServiceGlobalErrors", new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
 	}
 
