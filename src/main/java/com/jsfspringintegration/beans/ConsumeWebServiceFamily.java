@@ -16,6 +16,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
@@ -83,16 +84,11 @@ public class ConsumeWebServiceFamily {
 
 	public void editListener(RowEditEvent event) {
 		System.out.println("edit event...");
-		LinkedHashMap lhm = (LinkedHashMap) event.getObject();
-		
-		Family familia = null;
-		
-		for (Object family : lhm.keySet())
-			familia = (Family) family;
+		Family familia = (Family) event.getObject();
 		
 		System.out.println(familia);
 		
-		WebTarget target = getRestWebServiceConnection("David", "p", "http://localhost:8181/web-app/api_rest/", "family/update");
+		WebTarget target = getRestWebServiceConnection("David", "d", "http://localhost:8181/web-app/api_rest/", "family/update");
 		
 		Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.post(Entity.entity(familia, MediaType.APPLICATION_JSON));
@@ -175,7 +171,7 @@ public class ConsumeWebServiceFamily {
 	}
 
 	private List<Family> findAllFamilies(WebTarget target) {
-		return target.request(MediaType.APPLICATION_JSON).get(List.class);
+		return target.request(MediaType.APPLICATION_JSON).get(Response.class).readEntity(new GenericType<List<Family>>() {});
 	}
 
 	private Family findFamilyById(WebTarget target) {
