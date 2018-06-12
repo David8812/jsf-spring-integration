@@ -44,7 +44,7 @@
 		        <h:panelGrid columns="3" cellpadding="5">
 		            <p:radioButton id="opt2" for="customRadio" itemIndex="1"/>
 		            <p:outputLabel for="opt2" value="Listar miembro de la familia" />
-		            <p:inputText id="opt2Text" required="#{not consumeWebServiceFamily.radioButtonTextDisable}" disabled="#{consumeWebServiceFamily.radioButtonTextDisable}" value="#{consumeWebServiceFamily.id}">
+		            <p:inputText id="opt2Text" autocomplete="off" required="#{not consumeWebServiceFamily.radioButtonTextDisable}" disabled="#{consumeWebServiceFamily.radioButtonTextDisable}" value="#{consumeWebServiceFamily.id}">
 		            	<f:converter converterId="javax.faces.Integer" />
 		            </p:inputText>
 		 
@@ -74,7 +74,7 @@
 	                            <h:outputText value="#{familia.id}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{familia.id}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{familia.id}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -85,7 +85,7 @@
 	                            <h:outputText value="#{familia.nombre}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{familia.nombre}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{familia.nombre}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -96,7 +96,7 @@
 	                            <h:outputText value="#{familia.apellidoPaterno}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{familia.apellidoPaterno}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{familia.apellidoPaterno}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -107,7 +107,7 @@
 	                            <h:outputText value="#{familia.apellidoMaterno}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{familia.apellidoMaterno}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{familia.apellidoMaterno}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -118,7 +118,7 @@
 	                            <h:outputText value="#{familia.telefono}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{familia.telefono}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{familia.telefono}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -129,7 +129,7 @@
 	                            <h:outputText value="#{familia.domicilio}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{familia.domicilio}"/>
+	                            <p:inputText autocomplete="off" value="#{familia.domicilio}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -162,27 +162,27 @@
 	                    	<table>
 	                    		<tr>
 	                    			<td><p:outputLabel for="nombre" value="#{msgs['vacanteForm.nombre']}:" /></td>
-	                    			<td><p:inputText id="nombre" required="true" value="#{consumeWebServiceFamily.familia.nombre}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="nombre" required="true" value="#{consumeWebServiceFamily.familia.nombre}" /></td>
 	                    			<td><p:message for="nombre" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="apellidoPat" value="#{msgs['vacanteForm.apellidoPat']}:" /></td>
-	                    			<td><p:inputText id="apellidoPat" required="true" value="#{consumeWebServiceFamily.familia.apellidoPaterno}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="apellidoPat"  required="true" value="#{consumeWebServiceFamily.familia.apellidoPaterno}" /></td>
 	                    			<td><p:message for="apellidoPat" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="apellidoMat" value="#{msgs['vacanteForm.apellidoMat']}:" /></td>
-	                    			<td><p:inputText id="apellidoMat" required="true" value="#{consumeWebServiceFamily.familia.apellidoMaterno}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="apellidoMat" required="true" value="#{consumeWebServiceFamily.familia.apellidoMaterno}" /></td>
 	                    			<td><p:message for="apellidoMat" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="phone" value="#{msgs['vacanteForm.phone']}:" /></td>
-	                    			<td><p:inputText id="phone" required="true" value="#{consumeWebServiceFamily.familia.telefono}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="phone" required="true" value="#{consumeWebServiceFamily.familia.telefono}" /></td>
 	                    			<td><p:message for="phone" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="residence" value="#{msgs['vacanteForm.residence']}:" /></td>
-	                    			<td><p:inputText id="residence" required="true" value="#{consumeWebServiceFamily.familia.domicilio}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="residence" required="true" value="#{consumeWebServiceFamily.familia.domicilio}" /></td>
 	                    			<td><p:message for="residence" class="errorMessage" /></td>
 	                    		</tr>
 	                    	</table>

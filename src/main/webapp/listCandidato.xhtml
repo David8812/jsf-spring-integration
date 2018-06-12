@@ -38,7 +38,7 @@
 	                            <h:outputText value="#{candidato.nombre}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{candidato.nombre}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{candidato.nombre}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -49,7 +49,7 @@
 	                            <h:outputText value="#{candidato.apellido}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{candidato.apellido}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{candidato.apellido}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -60,7 +60,7 @@
 	                            <h:outputText value="#{candidato.sueldoDeseado}" />
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{candidato.sueldoDeseado}" />
+	                            <p:inputText autocomplete="off" required="true" value="#{candidato.sueldoDeseado}" />
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -73,7 +73,7 @@
 	                            </h:outputText>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:calendar id="calendarOutput" required="true" value="#{candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
+	                            <p:calendar autocomplete="off" id="calendarOutput" required="true" value="#{candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
 	                            	<f:convertDateTime pattern="dd/MM/yyyy" />
 	                            </p:calendar>
 	                        </f:facet>
@@ -86,7 +86,7 @@
 	                            <h:outputText value="#{candidato.skills}" converter="beans.converters.ToListString"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{candidato.skills}" converter="beans.converters.ToListString"/>
+	                            <p:inputText autocomplete="off" required="true" value="#{candidato.skills}" converter="beans.converters.ToListString"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -97,7 +97,7 @@
 	                            <h:outputText value="#{candidato.colonia.nombre}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText id="coloniaNombreId" required="true" value="#{candidato.colonia.nombre}"/>
+	                            <p:inputText autocomplete="off" id="coloniaNombreId" required="true" value="#{candidato.colonia.nombre}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -108,7 +108,7 @@
 	                            <h:outputText value="#{candidato.colonia.codigoPostal}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" value="#{candidato.colonia.codigoPostal}">
+	                            <p:inputText autocomplete="off" required="true" value="#{candidato.colonia.codigoPostal}">
 	                            	<p:ajax event="change" resetValues="true" listener="#{candidatoBean.updateColonyDataOnList}" update="coloniaNombreId ciudadId"/>
 	                            </p:inputText>
 	                        </f:facet>
@@ -121,7 +121,7 @@
 	                            <h:outputText value="#{candidato.colonia.ciudad}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText required="true" id="ciudadId" value="#{candidato.colonia.ciudad}"/>
+	                            <p:inputText autocomplete="off" required="true" id="ciudadId" value="#{candidato.colonia.ciudad}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -132,7 +132,7 @@
 	                            <h:outputText value="#{candidato.comentario}"/>
 	                        </f:facet>
 	                        <f:facet name="input">
-	                            <p:inputText value="#{candidato.comentario}"/>
+	                            <p:inputText autocomplete="off" value="#{candidato.comentario}"/>
 	                        </f:facet>
 	                    </p:cellEditor>
 	                </p:column>
@@ -177,18 +177,18 @@
 	                    	<table>
 	                    		<tr>
 	                    			<td><p:outputLabel for="nombre" value="#{msgs['vacanteForm.nombre']}" /></td>
-	                    			<td><p:inputText id="nombre" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.nombre}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="nombre" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.nombre}" /></td>
 	                    			<td><p:message for="nombre" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="apellido" value="#{msgs['vacanteForm.apellido']}:" /></td>
-	                    			<td><p:inputText id="apellido" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.apellido}" /></td>
+	                    			<td><p:inputText autocomplete="off" id="apellido" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.apellido}" /></td>
 	                    			<td><p:message for="apellido" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="sueldoDeseado" value="#{msgs['vacanteForm.sueldoDeseado']}:" /></td>
 	                    			<td>
-	                    				<p:inputText id="sueldoDeseado" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.sueldoDeseado}">
+	                    				<p:inputText autocomplete="off" id="sueldoDeseado" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.sueldoDeseado}">
 	                    					<f:validateLongRange minimum="10000" maximum="50000" disabled="#{empty param['submitId']}" />
 	                    				</p:inputText>
 	                    			</td>
@@ -197,7 +197,7 @@
 	                    		<tr>
 	                    			<td><p:outputLabel for="calendarOutput" value="#{msgs['vacanteForm.nacimiento']}:" /></td>
 	                    			<td>
-	                    				<p:calendar id="calendarOutput" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
+	                    				<p:calendar autocomplete="off" id="calendarOutput" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.fechaNacimiento}" mindate="01/01/1970" maxdate="today" pattern="dd/MM/yyyy" navigator="true" showButtonPanel="true" effect="fadeIn">
 			                            	<f:convertDateTime pattern="dd/MM/yyyy" />
 			                            </p:calendar>
 									</td>
@@ -205,13 +205,13 @@
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="habilidades" value="#{msgs['vacanteForm.array']}:" /></td>
-	                    			<td><p:inputText id="habilidades" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.skills}" converter="beans.converters.ToListString"/></td>
+	                    			<td><p:inputText autocomplete="off" id="habilidades" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.skills}" converter="beans.converters.ToListString"/></td>
 	                    			<td><p:message for="habilidades" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel id="coloniaCodPostalLabelId" for="coloniaCodPostal" value="#{msgs['vacanteForm.codigoPostal']}:" /></td>
 	                    			<td>
-	                    				<p:inputText id="coloniaCodPostal" immediate="#{empty param['submitId']}" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.codigoPostal}">
+	                    				<p:inputText autocomplete="off" id="coloniaCodPostal" immediate="#{empty param['submitId']}" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.codigoPostal}">
 	                    					<p:ajax event="change" listener="#{coloniaBean.codigoPostalListener}" update="ciudadLabelId ciudadMessageId ciudad coloniaLabelId coloniaMessageId coloniaId coloniaCodPostalLabelId coloniaCodigoPostalMessageId coloniaCodPostal" />
 	                    				</p:inputText>
 	                    			</td>
@@ -228,12 +228,12 @@
 								</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel id="ciudadLabelId" for="ciudad" value="#{msgs['vacanteForm.ciudad']}:" /></td>
-	                    			<td><p:inputText id="ciudad" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.ciudad}"/></td>
+	                    			<td><p:inputText autocomplete="off" id="ciudad" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.ciudad}"/></td>
 	                    			<td><p:message id="ciudadMessageId" for="ciudad" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel for="comentario" value="#{msgs['vacanteForm.comentario']}:" /></td>
-	                    			<td><p:inputText id="comentario" value="#{candidatoBean.candidato.comentario}"/></td>
+	                    			<td><p:inputText autocomplete="off" id="comentario" value="#{candidatoBean.candidato.comentario}"/></td>
 	                    			<td><p:message for="comentario" class="errorMessage" /></td>
 	                    		</tr>
 	                    	</table>
