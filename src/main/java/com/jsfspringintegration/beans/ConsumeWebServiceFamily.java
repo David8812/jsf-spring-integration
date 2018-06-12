@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -239,6 +240,12 @@ public class ConsumeWebServiceFamily {
 			System.out.println("Mensaje: " + e.getMessage());
 
 			createNotFoundInfoMessage();
+		} catch (ProcessingException p) {
+			System.out.println("Error en procesamiento");
+			
+			System.out.println("Mensaje: " + p.getMessage());
+			System.out.println("Causa: " + p.getCause());
+			
 		}
 	}
 

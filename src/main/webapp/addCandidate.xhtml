@@ -20,6 +20,8 @@
 			<p:growl id="msgs" showDetail="true" for="addedCorrectly" />
 			
 			<h:form id="form">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				
 				<p:commandButton value="#{msgs['addColony']}" actionListener="#{candidatoBean.showDialog}" icon="ui-icon-check"/>
 				
 				<p:dialog modal="true" resizable="false" header="#{msgs['addColony']}" widgetVar="dialog" showEffect="fold" closable="true">
@@ -49,6 +51,7 @@
 	    		</p:dialog>
 			</h:form>
 			<h:form id="vacanteForm">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<table>
 					<tr>
 						<td><p:outputLabel for="nombre" value="#{msgs['vacanteForm.nombre']}" /></td>
