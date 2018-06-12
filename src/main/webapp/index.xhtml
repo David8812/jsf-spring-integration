@@ -18,13 +18,14 @@
 			
 			<h:panelGroup id="container">
 				<c:choose>
-					<c:when test="#{not empty request.getSession(true).getAttribute('logged')}">
+					<c:when test="#{not empty request.getSession(true).getAttribute('auth')}">
 						<h:form>
 							<h:commandLink action="addCandidate?faces-redirect=true" value="#{msgs['addCandidate']}"></h:commandLink>
 							<br/>
 							<h:commandLink action="listCandidato?faces-redirect=true" value="#{msgs['listCandidate']}"></h:commandLink>
 							<br/>
 							<h:commandLink action="listFamiliesRestConsume?faces-redirect=true" value="#{msgs['listFamilies']}"></h:commandLink>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						</h:form>
 					</c:when>
 					<c:otherwise>
@@ -45,6 +46,7 @@
 									<td><p:commandButton actionListener="#{userLoginView.login}" update="logginForm msgs container languageForm" value="#{msgs['logIn']}" /></td>
 								</tr>
 							</table>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						</h:form>
 					</c:otherwise>
 				</c:choose>

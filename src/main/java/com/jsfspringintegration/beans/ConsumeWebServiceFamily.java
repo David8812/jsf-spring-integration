@@ -1,9 +1,7 @@
 package com.jsfspringintegration.beans;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +26,7 @@ import org.primefaces.event.RowEditEvent;
 
 import com.jsfspringintegration.model.Family;
 
-@ManagedBean
+@ManagedBean(name = "consumeWebServiceFamily")
 @ViewScoped
 public class ConsumeWebServiceFamily {
 
@@ -41,6 +39,25 @@ public class ConsumeWebServiceFamily {
 	private List<Family> families = new ArrayList<>();
 
 	private Family familia = new Family();
+	
+	/*
+	 * Este objeto es para guardar el objeto seleccionado desde la tabla en la vista;
+	 * si la tabla en algún momento puede estar vacía no debemos utilizar el mismo bean
+	 * porque va a ser null. Mi recomendación es siempre usar un objeto diferente para 
+	 * selección en tablas
+	 */
+	private Family selectionFamily = new Family();
+	
+	public ConsumeWebServiceFamily() {
+	}
+	
+	public Family getSelectionFamily() {
+		return selectionFamily;
+	}
+
+	public void setSelectionFamily(Family selectionFamily) {
+		this.selectionFamily = selectionFamily;
+	}
 
 	public Family getFamilia() {
 		return familia;
@@ -168,11 +185,11 @@ public class ConsumeWebServiceFamily {
 	}
 	
 	public void deleteCandidate() {
-		System.out.println("deleting... " + familia);
+		System.out.println("deleting... " + selectionFamily);
 		
 		WebTarget target = getRestWebServiceConnection("David", "d", "http://localhost:8181/web-app/api_rest/", "family");
 		
-		Invocation.Builder invocationBuilder = target.path("/" + familia.getId()).request(MediaType.APPLICATION_JSON);
+		Invocation.Builder invocationBuilder = target.path("/" + selectionFamily.getId()).request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.delete();
 		
 		int responseStatus = response.getStatus();
@@ -182,7 +199,7 @@ public class ConsumeWebServiceFamily {
 		if (responseStatus == 201) {
 			createOkDeletedInfoMessage();
 			
-			families.remove(familia);
+			families.remove(selectionFamily);
 		} else
 			creatUnkonwnError(type);
 	}

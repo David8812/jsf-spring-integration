@@ -18,7 +18,8 @@
 			<p:growl id="msgsError" showDetail="true" />
 			
 	        <h:form prependId="false" id="form">
-	        
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        	
 	            <p:growl id="msgs" showDetail="true" for="globalMessage" />
 	            
 	            <p:dataTable id="candidatos" var="candidato" value="#{candidatoBean.candidatos}" editable="true" rowKey="#{candidato.id}"
@@ -157,6 +158,8 @@
 	        </h:form>
 	        
 	        <h:form id="waitForm">
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        	
 	        	<p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
 	        	
 	        	<p:dialog widgetVar="statusDialog" styleClass="loading-dialog-style" modal="true" showHeader="false" resizable="false">
@@ -167,6 +170,7 @@
 			</h:form>
 
 	        <h:form id="vacanteForm" prependId="false">
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	            <p:dialog header="#{msgs['addCandidate']}" widgetVar="candiatoDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 	            	<p:outputPanel>
 	            		<p:panel id="display">

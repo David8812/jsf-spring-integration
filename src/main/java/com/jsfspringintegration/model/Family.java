@@ -1,9 +1,16 @@
 package com.jsfspringintegration.model;
 
+import java.io.Serializable;
+
+import javax.faces.bean.ManagedBean;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Family {
+@ManagedBean(name = "family")
+public class Family implements Serializable {
+
+	private static final long serialVersionUID = 7491388852554447125L;
 
 	private Long id;
 

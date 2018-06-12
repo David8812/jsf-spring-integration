@@ -28,10 +28,11 @@
 							actionListener="#{languageController.changeLanguageToEnglish}" value="English"></h:commandLink></td>
 					<td><h:commandLink
 							actionListener="#{languageController.changeLanguageToSpanish}" value=" | Español"></h:commandLink></td>
-					<td><h:commandLink rendered="#{not empty request.getSession(true).getAttribute('logged')}"
+					<td><h:commandLink rendered="#{not empty request.getSession(true).getAttribute('auth')}"
 							action="#{userLoginView.logout}" value=" | #{msgs['closeSession']}"></h:commandLink></td>
 				</tr>
 			</table>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		</h:form>
 		<div id="page">
 			<ui:insert name="content">Contenido</ui:insert>
