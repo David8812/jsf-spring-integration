@@ -25,8 +25,6 @@ import org.apache.logging.log4j.Logger;
 @FacesConverter("beans.converters.ToListString")
 public class ToListString implements Converter {
 
-    Logger log = LogManager.getRootLogger();
-
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         //log.info("Entrando al convertidor personalizado getAsObject()");

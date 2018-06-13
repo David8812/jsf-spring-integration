@@ -17,8 +17,6 @@ import org.apache.logging.log4j.Logger;
 @SessionScoped
 public class LanguageController {
 
-	Logger log = LogManager.getRootLogger();
-
     private Locale locale;
 
     @PostConstruct
@@ -30,7 +28,7 @@ public class LanguageController {
         Cookie cookie = findLanguageCookie(request, "language");
 
         if (cookie == null) {
-            log.info("No se encontro cookie de lenguaje, creando cookie con lenguaje local...");
+            System.out.println("No se encontro cookie de lenguaje, creando cookie con lenguaje local...");
             locale = ctx.getExternalContext().getRequestLocale();
             cookie = new Cookie("language", getLanguage());
             cookie.setPath(request.getContextPath());
@@ -40,7 +38,7 @@ public class LanguageController {
             response.addCookie(cookie);
         } else {
             String language = cookie.getValue();
-            log.info("Se encontro cookie de lenguaje, no es neceario crear una nueva, language: " + language);
+            System.out.println("Se encontro cookie de lenguaje, no es neceario crear una nueva, language: " + language);
             locale = new Locale(language);
         }
     }
@@ -67,10 +65,10 @@ public class LanguageController {
         Cookie cookie = findLanguageCookie(request, "language");
 
         if (cookie == null) {
-            log.info("Cookie no encontrada en cambio de idioma, creando nueva");
+            System.out.println("Cookie no encontrada en cambio de idioma, creando nueva");
             cookie = new Cookie(language, getLanguage());
         } else
-            log.info("Cookie encontrada en cambio de idioma, name: " + cookie.getName() + " ,value: " + cookie.getValue());
+            System.out.println("Cookie encontrada en cambio de idioma, name: " + cookie.getName() + " ,value: " + cookie.getValue());
 
         cookie.setValue(language);
         cookie.setPath(request.getContextPath());
