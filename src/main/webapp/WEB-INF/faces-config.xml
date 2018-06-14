@@ -20,9 +20,9 @@
 		<!--cambio de textos de validadores -->
 		<message-bundle>errorMessages</message-bundle>
 	</application>
-	<factory>
+	<!-- <factory>
 		<exception-handler-factory>
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
 		</exception-handler-factory>
-	</factory>
+	</factory> -->
 </faces-config>

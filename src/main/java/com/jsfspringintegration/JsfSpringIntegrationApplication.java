@@ -1,7 +1,5 @@
 package com.jsfspringintegration;
 
-import java.io.File;
-
 import javax.faces.webapp.FacesServlet;
 
 import org.springframework.boot.SpringApplication;
@@ -20,8 +18,6 @@ public class JsfSpringIntegrationApplication extends SpringBootServletInitialize
 	}
 
     public static void main(String[] args) {
-    	File f = new File(".");
-    	System.out.println("El path es: " + f.getAbsolutePath());
         SpringApplication.run(JsfSpringIntegrationApplication.class, args);
     }
 
