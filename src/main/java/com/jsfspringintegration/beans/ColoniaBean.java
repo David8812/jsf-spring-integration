@@ -108,10 +108,11 @@ public class ColoniaBean {
 		ctx.addMessage("addedCorrectly", new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
 
 		coloniaService.save(colonia);
+		
+		colonias.add(new SelectItem(colonia.getId() + "-" + colonia.getNombre(), colonia.getNombre()));
 
-		colonia.setCiudad("");
-		colonia.setCodigoPostal("");
-		colonia.setNombre("");
+		colonia = new Colonia();
+		
 		PrimeFaces.current().ajax().update("form:display");
 	}
 

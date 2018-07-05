@@ -7,7 +7,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,16 +37,7 @@ public class Candidato implements Serializable {
 	private List<String> skills;
 
 	@Field
-	private Colonia colonia;
-
-	@Transient
-	private String coloniaId;
-
-	@Transient
-	private String codigoPostal;
-
-	@Transient
-	private String ciudad;
+	private Colonia colonia = new Colonia();
 
 	@Field
 	private String comentario;
@@ -69,42 +59,6 @@ public class Candidato implements Serializable {
 
 	public Candidato copy() {
 		return new Candidato(id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, colonia, comentario);
-	}
-
-	public String getColoniaId() {
-		return coloniaId;
-	}
-
-	public void setColoniaId(String coloniaId) {
-		this.coloniaId = coloniaId;
-	}
-
-	public String getCodigoPostal1() {
-		if (colonia == null) {
-			return codigoPostal;
-		} else {
-			return colonia.getCodigoPostal();
-		}
-	}
-
-	public String getCodigoPostal() {
-		return codigoPostal;
-	}
-
-	public void setCodigoPostal(String codigoPostal) {
-		this.codigoPostal = codigoPostal;
-	}
-
-	public String getCiudad() {
-		if (colonia == null) {
-			return ciudad;
-		} else {
-			return colonia.getCiudad();
-		}
-	}
-
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
 	}
 
 	public static long getSerialversionuid() {
@@ -190,49 +144,24 @@ public class Candidato implements Serializable {
 	}
 
 	public String getPostalCode() {
-		if (colonia == null) {
-			return null;
-		} else {
-			return colonia.getCodigoPostal();
-		}
+		return colonia.getCodigoPostal();
 	}
 
 	public String getCity() {
-		if (colonia == null) {
-			return null;
-		} else {
-			return colonia.getCiudad();
-		}
+		return colonia.getCiudad();
 	}
 
 	public String getID() {
-		if (colonia == null) {
-			return null;
-		} else {
-			return colonia.getId();
-		}
+		return colonia.getId();
 	}
 
 	public String getNombreColonia() {
-		if (colonia == null) {
-			return null;
-		} else {
-			return colonia.getNombre();
-		}
-	}
-
-	public void clean() {
-		id = nombre = comentario = coloniaId = ciudad = apellido = codigoPostal = null;
-		skills = null;
-		colonia = new Colonia();
-		sueldoDeseado = 0;
-		fechaNacimiento = null;
+		return colonia.getNombre();
 	}
 
 	public String toString() {
 		return String.format(
-				"[ID:%s, nombre:%s, apellido:%s, sueldo deseado:%s, fecha de nacimiento:%s, Habilidades:%s, Colonia: {codigo postal:%s, nombre: %s, colonia id:%s, ciudad:%s}, comentario:%s]",
-				id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, getCodigoPostal1(), getNombreColonia(),
-				getID(), getCiudad(), comentario);
+				"[ID:%s, nombre:%s, apellido:%s, sueldo deseado:%s, fecha de nacimiento:%s, Habilidades:%s, Colonia: %s, comentario:%s]",
+				id, nombre, apellido, sueldoDeseado, fechaNacimiento, skills, colonia, comentario);
 	}
 }

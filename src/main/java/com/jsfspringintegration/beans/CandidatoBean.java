@@ -123,16 +123,12 @@ public class CandidatoBean {
 	public void crearNuevo() {
 		System.out.println("Insertando candidato ANTES: " + candidato);
 
-		String ID = candidato.getColoniaId();
+		String ID = candidato.getColonia().getId();
 		String[] tmp = ID.split("[-]");
 		System.out.println("ID: " + tmp[0] + " Nombre: " + tmp[1]);
-
-		Colonia c = new Colonia();
-		c.setId(tmp[0]);
-		c.setNombre(tmp[1]);
-		c.setCodigoPostal(candidato.getCodigoPostal());
-		c.setCiudad(candidato.getCiudad());
-		candidato.setColonia(c);
+		
+		candidato.getColonia().setId(tmp[0]);
+		candidato.getColonia().setNombre(tmp[1]);
 
 		System.out.println("Insertando candidato DESPUES: " + candidato);
 
@@ -148,7 +144,7 @@ public class CandidatoBean {
 
 		fillCandidatos();
 
-		candidato.clean();
+		candidato = new Candidato();
 	}
 	
 	public void forceReloadListData() {

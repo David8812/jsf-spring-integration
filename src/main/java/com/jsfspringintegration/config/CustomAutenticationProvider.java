@@ -39,6 +39,8 @@ public class CustomAutenticationProvider implements AuthenticationProvider {
 		String password = credentials.toString();
 		
 		User user = userRepository.findByUserName(name);
+		
+		//System.out.println("Usuario recuperado: " + user);
 
 		System.out.println("credential=> user: " + name + " password: " + password);
 		

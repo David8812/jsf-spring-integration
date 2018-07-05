@@ -18,6 +18,7 @@
 		<ui:define name="content">
 		
 			<p:growl id="msgs" showDetail="true" for="addedCorrectly" />
+			<p:growl id="msgs1" showDetail="true" for="globalMessage" />
 			
 			<h:form id="form">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -95,7 +96,7 @@
 					<tr>
 						<td><p:outputLabel id="codigoPostalLabelId" for="codigoPostal" value="#{msgs['vacanteForm.codigoPostal']}" /></td>
 						<td>
-							<p:inputText autocomplete="off" id="codigoPostal" required="#{not empty param['vacanteForm:submitId']}" value="#{candidatoBean.candidato.codigoPostal}" >
+							<p:inputText autocomplete="off" id="codigoPostal" required="#{not empty param['vacanteForm:submitId']}" value="#{candidatoBean.candidato.colonia.codigoPostal}" >
 								<p:ajax event="change" listener="#{coloniaBean.codigoPostalListener}" update="codigoPostalMessagId codigoPostalLabelId codigoPostal coloniaLabelId coloniaMessageId coloniaId ciudadLabelId ciudadMessageId ciudad"/>
 							</p:inputText>
 						</td>
@@ -103,7 +104,7 @@
 					</tr>
 					<tr>
 						<td><p:outputLabel id="coloniaLabelId" for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
-						<td><p:selectOneMenu id="coloniaId" required="true" value="#{candidatoBean.candidato.coloniaId}" dynamic="true" >
+						<td><p:selectOneMenu id="coloniaId" required="#{not empty param['vacanteForm:submitId']}" value="#{candidatoBean.candidato.colonia.id}" dynamic="true" >
 								<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" noSelectionOption="true" />
 								<f:selectItems value="#{coloniaBean.colonias}" />
 							</p:selectOneMenu>
@@ -112,7 +113,7 @@
 					</tr>
 					<tr>
 						<td><p:outputLabel id="ciudadLabelId" for="ciudad" value="#{msgs['vacanteForm.ciudad']}" /></td>
-						<td><p:inputText autocomplete="off" id="ciudad" required="true" value="#{candidatoBean.candidato.ciudad}" /></td>
+						<td><p:inputText autocomplete="off" id="ciudad" required="true" value="#{candidatoBean.candidato.colonia.ciudad}" /></td>
 						<td><p:message id="ciudadMessageId" for="ciudad" class="errorMessage" /></td>
 					</tr>
 				</table>
@@ -137,7 +138,7 @@
 						</tr>
 					</table>
 				</h:panelGroup>
-				<p:commandButton id="submitId" update="vacanteForm msgs" action="#{candidatoBean.crearNuevo}" value="#{msgs['vacanteForm.enviar']}" />
+				<p:commandButton id="submitId" update="vacanteForm msgs msgs1" action="#{candidatoBean.crearNuevo}" value="#{msgs['vacanteForm.enviar']}" />
 			</h:form>
 		</ui:define>
 	</ui:composition>

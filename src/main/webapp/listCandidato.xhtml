@@ -211,7 +211,7 @@
 	                    		<tr>
 	                    			<td><p:outputLabel id="coloniaCodPostalLabelId" for="coloniaCodPostal" value="#{msgs['vacanteForm.codigoPostal']}:" /></td>
 	                    			<td>
-	                    				<p:inputText autocomplete="off" id="coloniaCodPostal" immediate="#{empty param['submitId']}" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.codigoPostal}">
+	                    				<p:inputText autocomplete="off" id="coloniaCodPostal" immediate="#{empty param['submitId']}" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.colonia.codigoPostal}">
 	                    					<p:ajax event="change" listener="#{coloniaBean.codigoPostalListener}" update="ciudadLabelId ciudadMessageId ciudad coloniaLabelId coloniaMessageId coloniaId coloniaCodPostalLabelId coloniaCodigoPostalMessageId coloniaCodPostal" />
 	                    				</p:inputText>
 	                    			</td>
@@ -219,7 +219,7 @@
 	                    		</tr>
 	                    		<tr>
 									<td><p:outputLabel id="coloniaLabelId" for="coloniaId" value="#{msgs['vacanteForm.coloniaId']}" /></td>
-									<td><p:selectOneMenu id="coloniaId" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.coloniaId}" dynamic="true">
+									<td><p:selectOneMenu id="coloniaId" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.colonia.id}" dynamic="true">
 											<f:selectItem itemLabel="#{msgs['vacanteForm.seleccione']}" itemValue="0" noSelectionOption="true"/>
 											<f:selectItems value="#{coloniaBean.colonias}" />
 										</p:selectOneMenu>
@@ -228,7 +228,7 @@
 								</tr>
 	                    		<tr>
 	                    			<td><p:outputLabel id="ciudadLabelId" for="ciudad" value="#{msgs['vacanteForm.ciudad']}:" /></td>
-	                    			<td><p:inputText autocomplete="off" id="ciudad" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.ciudad}"/></td>
+	                    			<td><p:inputText autocomplete="off" id="ciudad" required="#{not empty param['submitId']}" value="#{candidatoBean.candidato.colonia.ciudad}"/></td>
 	                    			<td><p:message id="ciudadMessageId" for="ciudad" class="errorMessage" /></td>
 	                    		</tr>
 	                    		<tr>
