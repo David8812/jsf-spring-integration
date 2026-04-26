@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.jsfspringintegration.model.User;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, String> {
 
 	List<User> findAll();
 	
